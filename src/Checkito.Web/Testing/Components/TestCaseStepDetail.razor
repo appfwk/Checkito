@@ -1,0 +1,60 @@
+﻿@inherits TestCaseStepDetailBase
+
+@inject NavigationManager NavManager
+<h1>Step: @Step?.Name</h1>
+@if(Step != null)
+{
+    <EditForm Model="Step" OnSubmit="async ()=> await OnOk(NavManager)">
+        <div class="form-group">
+          <label for="Name">Name</label>
+          <InputText class="form-control" @bind-Value="Step.Name" placeholder="Enter test case step name"></InputText>
+        </div>
+        <div class="form-group">
+          <label for="ApiCall">Api Endpoints</label>
+            <InputSelect id="ApiCall" class="form-select" @bind-Value="@Step.ApiCallId">
+                @foreach (var apiCall in ApiCalls) 
+                {
+                    <option value="@apiCall.Id">@(string.Concat(apiCall.Id == Guid.Empty? string.Empty : apiCall.HttpMethod, " ", apiCall.Name))</option>
+                }
+            </InputSelect>
+        </div>
+        <br><br><br>
+        <strong>Asserts</strong>
+        <br><br>
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+              <button @onclick="@(async ()=> await CreateAssert(NavManager))" type="button" class="btn btn-primary">Create</button>
+          </li>
+        </ul>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Source</th>
+              <th scope="col">Type</th>
+              <th scope="col">Expected Value</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var assert in Step.Asserts)
+            {
+                <tr>
+                    <th scope="row"><NavLink href="@GetManageAssertUrl(assert.Id)">@assert.Source</NavLink></th>
+                    <td>@assert.Type</td>
+                    <td>@assert.ExpectedValue</td>
+                    <td>
+                        <ul class="nav nav-pills">
+                          <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Delete</a>
+                          </li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+          </tbody>
+        </table>
+        <br><br>
+        <button type="submit" class="btn btn-primary">OK</button>
+    </EditForm>
+}

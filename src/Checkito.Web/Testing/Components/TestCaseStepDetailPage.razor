@@ -1,0 +1,12 @@
+﻿@page "/tests/testcases/{testCaseId:guid}/steps/{stepId:guid}"
+
+<TestCaseStepDetail TestCaseId="TestCaseId" StepId="StepId"></TestCaseStepDetail>
+
+@code
+{
+    [Parameter]
+    public Guid TestCaseId { get; set; }
+    [Parameter]
+    public Guid StepId { get; set; }
+
+}

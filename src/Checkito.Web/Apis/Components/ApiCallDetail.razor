@@ -1,0 +1,49 @@
+﻿@using Checkito.Apis.Models
+@inherits ApiCallDetailBase
+@inject NavigationManager NavManager
+<h1>Api Call</h1>
+@if(ApiCall != null)
+{
+
+    <EditForm Model="ApiCall" OnSubmit="async ()=> await OnOk(NavManager)">
+        <div class="form-group">
+          <label for="Name">Name</label>
+          <InputText id="Name" class="form-control" @bind-Value="ApiCall.Name" placeholder="Enter api name"></InputText>
+        </div>
+
+        <div class="form-group">
+          <label for="HttpMethod">Http method</label>
+            <InputSelect id="HttpMethod" class="form-select" @bind-Value="@ApiCall.HttpMethod">
+                @foreach (var value in Enum.GetValues<HttpVerb>()) 
+                {
+                    <option value="@value">@value</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="form-group">
+          <label for="Name">Name</label>
+          <InputText class="form-control" @bind-Value="ApiCall.Uri" placeholder="Enter api URI"></InputText>
+        </div>
+
+        <div class="form-group">
+          <label for="Body">Headers</label>
+          <InputTextArea rows="8" class="form-control" @bind-Value="HeadersContent" placeholder="Enter headers"></InputTextArea>
+        </div>
+
+        <div class="form-group">
+          <label for="Body">Body</label>
+          <InputTextArea rows="15" class="form-control" @bind-Value="ApiCall.Body" placeholder="Enter body content"></InputTextArea>
+        </div>
+
+      
+@*        <ul class="nav nav-pills">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Add</a>
+          </li>
+        </ul>*@
+        
+        <br><br>
+        <button type="submit" class="btn btn-primary">OK</button>
+    </EditForm>
+}

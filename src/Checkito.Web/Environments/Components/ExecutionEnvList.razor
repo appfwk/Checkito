@@ -1,0 +1,35 @@
+﻿@inherits ExecutionEnvListBase
+@inject NavigationManager NavManager
+
+<ul class="nav nav-pills">
+  <li class="nav-item">
+      <button @onclick="@(()=> OnCreateEnvironment())" type="button" class="btn btn-primary">Create</button>
+  </li>
+</ul>
+<br /><br />
+
+<EditForm Model="ExecutionEnvs" OnSubmit="async ()=> await OnOk()">
+@foreach (var executionEnv in ExecutionEnvs)
+{
+        <div class="card @(executionEnv.IsSelected? "bg-secondary" : null)">
+          <div class="card-header">
+            <div class="form-group">
+              <label for="Name">Name</label>
+              <InputText id="Name" class="form-control" @bind-Value="executionEnv.Name" placeholder="Enter environments name"></InputText>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="Variables">Variables in format: {key}:{value}</label>
+              <textarea rows="15" id="Variables" class="form-control" placeholder="Enter variables" @onchange="args=>executionEnv.SetVariables(Convert.ToString(args.Value))">@executionEnv.GetVariables()</textarea>
+              <button type="button" @onclick="()=> OnSelectEnvironmentEnv(executionEnv)" class="btn btn-success">Select</button>
+              <button @onclick="()=> OnRemoveExecutionEnv(executionEnv)" type="button" class="btn btn-danger">Remove</button>
+            </div>
+          </div>
+        </div>
+        <br /><br /><br />
+}
+<br><br>
+<button type="submit" class="btn btn-primary">OK</button>
+<br><br>
+</EditForm>

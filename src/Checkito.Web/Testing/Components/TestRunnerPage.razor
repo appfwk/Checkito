@@ -1,0 +1,9 @@
+﻿@page "/tests/testcases/{testCaseId:guid}/run"
+
+<TestRunner TestCaseId="TestCaseId"></TestRunner>
+
+@code 
+{
+    [Parameter]
+    public Guid TestCaseId { get; set; }
+}

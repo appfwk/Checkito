@@ -1,0 +1,90 @@
+﻿@using Checkito.Apis.Models
+@inherits ApiDetailBase
+@inject NavigationManager NavManager
+<h1>Api</h1>
+@if(Api != null)
+{
+    <EditForm Model="Api" OnSubmit="async ()=> await OnOk()">
+        <div class="form-group">
+          <label for="Name">Name</label>
+          <InputText id="Name" class="form-control" @bind-Value="Api.Name" placeholder="Enter api name"></InputText>
+        </div>
+        <hr>
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-auth-tab" data-toggle="tab" href="#nav-auth" role="tab" aria-controls="nav-auth" aria-selected="true">Auth</a>
+            <a class="nav-item nav-link" id="nav-headers-tab" data-toggle="tab" href="#nav-headers" role="tab" aria-controls="nav-headers" aria-selected="false">Headers</a>
+            <a class="nav-item nav-link" id="nav-variables-tab" data-toggle="tab" href="#nav-variables" role="tab" aria-controls="nav-variables" aria-selected="false">Variables</a>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade show active" id="nav-auth" role="tabpanel" aria-labelledby="nav-auth-tab">
+                <div class="form-group">
+                  <label for="AuthType">Auth Type</label>
+                    <InputSelect id="AuthType" class="form-select" @bind-Value="@Api.Authentication.Type">
+                        @foreach (var value in Enum.GetValues<AuthenticationType>()) 
+                        {
+                            <option value="@value">@value</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="form-group">
+                  <label for="Login">Login/Client id</label>
+                  <InputText id="Login" class="form-control" @bind-Value="Api.Authentication.Login" placeholder="Enter login or client id"></InputText>
+                </div>
+                <div class="form-group">
+                  <label for="Password">Password/Secret</label>
+                  <InputText id="Password" class="form-control" @bind-Value="Api.Authentication.Password" placeholder="Enter password or secret"></InputText>
+                </div>
+                <div class="form-group">
+                  <label for="Url">Token Url</label>
+                  <InputText id="Url" class="form-control" @bind-Value="Api.Authentication.Url" placeholder="Enter auth server or token url"></InputText>
+                </div>
+                <div class="form-group">
+                  <label for="Token">Token</label>
+                  <InputText id="Token" class="form-control" @bind-Value="Api.Authentication.Token" placeholder="Enter access token"></InputText>
+                </div>
+          </div>
+          <div class="tab-pane fade" id="nav-headers" role="tabpanel" aria-labelledby="nav-headers-tab">...</div>
+          <div class="tab-pane fade" id="nav-variables" role="tabpanel" aria-labelledby="nav-variables-tab">...</div>
+        </div>
+        <br><br><br>
+        <strong>Api Calls / Endpoints</strong>
+        <br><br>
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+              <button @onclick="@(()=> NavManager.NavigateTo("apis/calls"))" type="button" class="btn btn-primary">Create</button>
+          </li>
+        </ul>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Http Method</th>
+              <th scope="col">Uri</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var apiCall in Api.ApiCallDefinitions)
+            {
+                <tr>
+                    <th scope="row"><NavLink href="@("apis/calls/" + @apiCall.Id)">@apiCall.Name</NavLink></th>
+                    <td>@apiCall.HttpMethod</td>
+                    <td>@apiCall.Uri</td>
+                    <td>
+                        <ul class="nav nav-pills">
+                          <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Delete</a>
+                          </li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+          </tbody>
+        </table>
+        <br><br>
+        <button type="submit" class="btn btn-primary">OK</button>
+    </EditForm>
+}

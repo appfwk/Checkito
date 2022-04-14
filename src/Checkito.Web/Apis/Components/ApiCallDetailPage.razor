@@ -1,0 +1,8 @@
+﻿@page "/apis/calls/{apiCallDefinitionID:guid?}"
+
+<ApiCallDetail ApiCallId="ApiCallDefinitionID"></ApiCallDetail>
+@code
+{
+    [Parameter]
+    public Guid? ApiCallDefinitionID { get; set; }
+}

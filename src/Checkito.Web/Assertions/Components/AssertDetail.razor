@@ -1,0 +1,33 @@
+﻿@using Checkito.Assertions.Models
+@inherits AssertDetailBase
+
+@inject NavigationManager NavManager
+<h1>Assert</h1>
+@if(Assert != null)
+{
+
+    <EditForm Model="Assert" OnSubmit="async ()=> await OnOk(NavManager)">
+        <div class="form-group">
+          <label for="Source">Source</label>
+          <InputText id="Source" class="form-control" @bind-Value="Assert.Source" placeholder="Enter value source"></InputText>
+        </div>
+
+        <div class="form-group">
+          <label for="AssertType">Operation</label>
+            <InputSelect id="AssertType" class="form-select" @bind-Value="@Assert.Type">
+                @foreach (var value in Enum.GetValues<AssertType>()) 
+                {
+                    <option value="@value">@value</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="form-group">
+          <label for="ExpectedValue">Expected value</label>
+          <InputTextArea id="ExpectedValue" class="form-control" @bind-Value="Assert.ExpectedValue" placeholder="Enter expected value"></InputTextArea>
+        </div>
+
+        <br><br>
+        <button type="submit" class="btn btn-primary">OK</button>
+    </EditForm>
+}

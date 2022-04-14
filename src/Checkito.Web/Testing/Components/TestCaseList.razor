@@ -1,0 +1,43 @@
+﻿@inherits TestCaseListBase
+@inject NavigationManager NavManager
+<ul class="nav nav-pills">
+  <li class="nav-item">
+      <button @onclick="@(()=> OnCreateTestCase(NavManager))" type="button" class="btn btn-primary">Create</button>
+  </li>
+  <li class="nav-item">
+      <button @onclick="@(async()=> await OnRun())" type="button" disabled="@IsBussy" class="btn btn-success">Run</button>
+  </li>
+</ul>
+<br /><br />
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Result</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var testCaseVm in TestCases)
+    {
+        <tr>
+            <th scope="row"><NavLink href="@("tests/testcases/" + @testCaseVm.TestCase.Id)">@testCaseVm.TestCase.Name</NavLink></th>
+            <td>
+                @if(testCaseVm.Evaluation != null)
+                {
+                    <span class="@(string.Concat("oi oi-", testCaseVm.Evaluation.IsSuccess? "circle-check" : "circle-x"))" aria-hidden="true"></span>
+                    <i>@testCaseVm.Evaluation.GetFormattedResult()</i>
+                }
+                
+            </td>
+            <td>
+                <ul class="nav nav-pills">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Delete</a>
+                  </li>
+                </ul>
+            </td>
+        </tr>
+    }
+  </tbody>
+</table>

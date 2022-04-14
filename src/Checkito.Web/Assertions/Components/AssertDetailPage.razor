@@ -1,0 +1,14 @@
+﻿@page "/tests/testcases/{testCaseId:guid}/steps/{stepId:guid}/asserts/{assertId:guid}"
+
+<AssertDetail TestCaseId="TestCaseId" StepId="StepId" AssertId="AssertId"></AssertDetail>
+
+@code
+{
+    [Parameter]
+    public Guid TestCaseId { get; set; }
+    [Parameter]
+    public Guid StepId { get; set; }
+    [Parameter]
+    public Guid AssertId { get; set; }
+
+}

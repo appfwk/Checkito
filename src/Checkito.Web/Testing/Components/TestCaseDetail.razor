@@ -1,0 +1,50 @@
+﻿@inherits TestCaseDetailBase
+
+@inject NavigationManager NavManager
+<h1>Test Case: @TestCase?.Name</h1>
+@if(TestCase != null)
+{
+    <EditForm Model="TestCase" OnSubmit="async ()=> await OnOk(NavManager)">
+        <div class="form-group">
+          <label for="Name">Name</label>
+          <InputText class="form-control" @bind-Value="TestCase.Name" placeholder="Enter test case name"></InputText>
+        </div>
+        <br><br><br>
+        <strong>Steps</strong>
+        <br><br>
+        <ul class="nav nav-pills">
+          <li class="nav-item">
+              <button @onclick="@(async ()=> await CreateStep(NavManager))" type="button" class="btn btn-primary">Create</button>
+          </li>
+          <li class="nav-item">
+              <button @onclick="@(async ()=> await Run(NavManager))" type="button" class="btn btn-primary">Run</button>
+          </li>
+        </ul>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @foreach (var step in TestCase.Steps)
+            {
+                <tr>
+                    <th scope="row"><NavLink href="@(GetManageStepUrl(step.Id))">@step.Name</NavLink></th>
+                    <td>
+                        <ul class="nav nav-pills">
+                          <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Delete</a>
+                          </li>
+                        </ul>
+                    </td>
+                </tr>
+            }
+          </tbody>
+        </table>
+        <br><br>
+        <button type="submit" class="btn btn-primary">OK</button>
+    </EditForm>
+}
